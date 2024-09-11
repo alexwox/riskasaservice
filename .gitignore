@@ -59,3 +59,4 @@ coverage.xml
 *.log
 
 __pycache__/
+playground/
