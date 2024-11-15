@@ -14,3 +14,7 @@ def analyze_portfolio(portfolio: dict):
         return {"risk_metrics": results}
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+    
+@app.get("/health")
+async def health():
+    return {"status": "ok"}
