@@ -25,8 +25,8 @@ Parsing:
 
 Data Retrieval: 
 - [ ] Investigate API data sources
--    [ ] StockPriceData?
--    [ ] Annual reports? 
+   - [ ] StockPriceData?
+   - [ ] Annual reports? 
 
 Risk analysis:
 - [ ] Build out the financial metrics, to use VaR with Copulas
