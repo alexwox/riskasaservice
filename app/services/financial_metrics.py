@@ -4,6 +4,7 @@ from app.utils.data_fetcher import fetch_historical_prices
 
 import numpy as np
 from app.utils.data_fetcher import fetch_historical_prices
+from scipy import stats
 
 def calculate_risk_metrics(portfolio):
     tickers = list(portfolio.keys())
@@ -21,9 +22,14 @@ def calculate_risk_metrics(portfolio):
     total_investment = sum(quantities)
     weights = quantities / total_investment
 
-    # Value at Risk (VaR)
+    # Historical Value at Risk (VaR)
     portfolio_returns = returns.dot(weights)
-    var_95 = np.percentile(portfolio_returns, 5) * total_investment
+    hist_var_95 = np.percentile(portfolio_returns, 5) * total_investment
+
+    # Parametric VaR using t-distribution
+    t_params = stats.t.fit(portfolio_returns)
+    t_var_95 = stats.t.ppf(0.05, *t_params) * np.std(portfolio_returns) + np.mean(portfolio_returns)
+    param_var_95 = t_var_95 * total_investment
 
     # Beta calculation using SPY data as the market benchmark
     spy_returns = spy_data.pct_change().dropna()
@@ -34,7 +40,8 @@ def calculate_risk_metrics(portfolio):
     diversification_score = 1 - correlation_matrix.mean().mean()
 
     return {
-        "value_at_risk_95": round(var_95, 2),
+        "historical_var_95": round(hist_var_95, 2),
+        "parametric_var_95": round(param_var_95, 2),
         "beta": round(beta, 2),
         "diversification_score": round(diversification_score, 2),
     }
