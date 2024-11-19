@@ -14,7 +14,7 @@ def fetch_historical_prices(tickers, start_date="2020-01-01", end_date="2023-01-
 
         # Check if SPY is included in the data
         if "SPY" not in data.columns:
-            raise ValueError("Failed to retrieve SPY data. Please check your internet connection or API limits.")
+            raise ValueError("Failed to retrieve SPY data. Please check your internet connection.")
         
         return data
     except Exception as e:

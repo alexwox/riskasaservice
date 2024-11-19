@@ -11,7 +11,10 @@ class PortfolioRequest(BaseModel):
 class RiskMetrics(BaseModel):
     value_at_risk_95: float = Field(..., description="95% Value at Risk")
     beta: float = Field(..., description="Portfolio Beta against S&P 500")
-    diversification_score: float = Field(..., description="Portfolio diversification score (0-1)")
+    diversification_score: float = Field(
+        ..., 
+        description="Portfolio diversification score (0-1)"
+    )
 
 class PortfolioResponse(BaseModel):
     risk_metrics: RiskMetrics
