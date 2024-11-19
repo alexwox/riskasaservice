@@ -11,6 +11,7 @@ frozendict==2.4.6
 h11==0.14.0
 html5lib==1.1
 idna==3.10
+iniconfig==2.0.0
 isort==5.13.2
 lxml==5.3.0
 mccabe==0.7.0
@@ -22,10 +23,12 @@ pandas==2.2.3
 pathspec==0.12.1
 peewee==3.17.8
 platformdirs==4.3.6
+pluggy==1.5.0
 pycodestyle==2.12.1
 pydantic==2.9.2
 pydantic_core==2.23.4
 pyflakes==3.2.0
+pytest==8.3.3
 python-dateutil==2.9.0.post0
 pytz==2024.2
 requests==2.32.3
