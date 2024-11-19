@@ -4,13 +4,11 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from app.services.financial_metrics import (
-    calculate_beta,
-    calculate_diversification_score,
-    calculate_historical_var,
-    calculate_portfolio_weights,
-    calculate_risk_metrics,
-)
+from app.services.financial_metrics import (calculate_beta,
+                                            calculate_diversification_score,
+                                            calculate_historical_var,
+                                            calculate_portfolio_weights,
+                                            calculate_risk_metrics)
 
 
 def test_calculate_portfolio_weights():

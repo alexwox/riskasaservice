@@ -1,7 +1,6 @@
 """Financial metrics calculation module for portfolio analysis and risk assessment."""
 
 import numpy as np
-from scipy import stats
 
 from app.utils.data_fetcher import fetch_historical_prices
 
