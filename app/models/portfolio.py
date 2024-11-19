@@ -4,11 +4,11 @@ from pydantic import BaseModel, Field
 
 
 class PortfolioRequest(BaseModel):
-    holdings: Dict[str, float] = Field(
-        ...,
-        description="Dictionary of stock tickers and their quantities",
-        example={"AAPL": 10, "GOOG": 5, "MSFT": 15},
-    )
+    holdings: Dict[str, int] = Field(...)
+
+    model_config = {
+        "json_schema_extra": {"examples": [{"holdings": {"AAPL": 10, "GOOG": 5}}]}
+    }
 
 
 class RiskMetrics(BaseModel):

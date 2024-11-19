@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, status
+from fastapi.responses import JSONResponse
 
 from app.models.portfolio import PortfolioRequest, PortfolioResponse
 from app.services.financial_metrics import calculate_risk_metrics
@@ -6,7 +7,16 @@ from app.services.financial_metrics import calculate_risk_metrics
 router = APIRouter(prefix="/portfolio", tags=["Portfolio Analysis"])
 
 
-@router.post("/analyze", response_model=PortfolioResponse)
+@router.post(
+    "/analyze",
+    response_model=PortfolioResponse,
+    status_code=status.HTTP_200_OK,
+    responses={
+        200: {"description": "Successfully analyzed portfolio"},
+        400: {"description": "Invalid portfolio data"},
+        500: {"description": "Internal server error"},
+    },
+)
 async def analyze_portfolio(portfolio: PortfolioRequest):
     """
     Analyze a portfolio and calculate risk metrics.
@@ -37,11 +47,25 @@ async def analyze_portfolio(portfolio: PortfolioRequest):
     try:
         results = calculate_risk_metrics(portfolio.holdings)
         return {"risk_metrics": results}
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
+        ) from e
     except Exception as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error occurred",
+        ) from e
 
 
-@router.get("/health")
+@router.get(
+    "/health",
+    status_code=status.HTTP_200_OK,
+    responses={
+        200: {"description": "Service is healthy"},
+        503: {"description": "Service is unhealthy"},
+    },
+)
 async def health():
     """
     Check the health status of the portfolio analysis service.
@@ -49,4 +73,10 @@ async def health():
     Returns:
         dict: Status message indicating service health
     """
-    return {"status": "ok"}
+    try:
+        # Add any health checks here if needed
+        return JSONResponse(status_code=status.HTTP_200_OK, content={"status": "ok"})
+    except Exception:
+        return JSONResponse(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE, content={"status": "error"}
+        )
