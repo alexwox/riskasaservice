@@ -21,17 +21,6 @@ def calculate_historical_var(returns, weights, confidence_level=5):
     return np.percentile(portfolio_returns, confidence_level), portfolio_returns
 
 
-def calculate_parametric_var(
-    portfolio_returns, total_investment, confidence_level=0.05
-):
-    """Calculate parametric VaR using a t-distribution."""
-    t_params = stats.t.fit(portfolio_returns)
-    t_var = stats.t.ppf(confidence_level, *t_params) * np.std(
-        portfolio_returns
-    ) + np.mean(portfolio_returns)
-    return t_var * total_investment
-
-
 def calculate_beta(portfolio_returns, spy_returns):
     """Calculate beta of the portfolio relative to SPY."""
     spy_variance = np.var(spy_returns)
@@ -65,9 +54,6 @@ def calculate_risk_metrics(portfolio):
     # Calculate Historical VaR
     hist_var_95, portfolio_returns = calculate_historical_var(returns, weights)
 
-    # Calculate Parametric VaR
-    param_var_95 = calculate_parametric_var(portfolio_returns, total_investment)
-
     # Calculate Beta
     beta = calculate_beta(portfolio_returns, spy_returns)
 
@@ -77,7 +63,6 @@ def calculate_risk_metrics(portfolio):
     # Return results
     return {
         "historical_var_95": round(hist_var_95 * total_investment, 2),
-        "parametric_var_95": round(param_var_95, 2),
         "beta": round(beta, 2),
         "diversification_score": round(diversification_score, 2),
     }
