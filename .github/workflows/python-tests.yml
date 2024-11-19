@@ -33,15 +33,15 @@ jobs:
         source env/bin/activate
         flake8 app/ tests/
 
-    - name: Run Black (Check Only)
-      run: |
-        source env/bin/activate
-        black --check app/ tests/
-
     - name: Run isort (Check Only)
       run: |
         source env/bin/activate
         isort --check-only app/ tests/
+
+    - name: Run Black (Check Only)
+      run: |
+        source env/bin/activate
+        black --check app/ tests/
 
     - name: Run Tests
       run: |
