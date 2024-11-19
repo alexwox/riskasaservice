@@ -1,5 +1,8 @@
+"""Financial metrics calculation module for portfolio analysis and risk assessment."""
+
 import numpy as np
 from scipy import stats
+from app.utils.data_fetcher import fetch_historical_prices
 
 
 def calculate_portfolio_weights(portfolio):
@@ -17,14 +20,14 @@ def calculate_historical_var(returns, weights, confidence_level=5):
     return np.percentile(portfolio_returns, confidence_level), portfolio_returns
 
 
-def calculate_parametric_var(portfolio_returns, total_investment, confidence_level=0.05):
+def calculate_parametric_var(
+    portfolio_returns, total_investment, confidence_level=0.05
+):
     """Calculate parametric VaR using a t-distribution."""
     t_params = stats.t.fit(portfolio_returns)
-    t_var = (
-        stats.t.ppf(confidence_level, *t_params) 
-        * np.std(portfolio_returns) 
-        + np.mean(portfolio_returns)
-    )
+    t_var = stats.t.ppf(confidence_level, *t_params) * np.std(
+        portfolio_returns
+    ) + np.mean(portfolio_returns)
     return t_var * total_investment
 
 

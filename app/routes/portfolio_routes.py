@@ -1,8 +1,10 @@
 from fastapi import APIRouter, HTTPException
-from app.services.financial_metrics import calculate_risk_metrics
+
 from app.models.portfolio import PortfolioRequest, PortfolioResponse
+from app.services.financial_metrics import calculate_risk_metrics
 
 router = APIRouter(prefix="/portfolio", tags=["Portfolio Analysis"])
+
 
 @router.post("/analyze", response_model=PortfolioResponse)
 async def analyze_portfolio(portfolio: PortfolioRequest):
@@ -38,11 +40,12 @@ async def analyze_portfolio(portfolio: PortfolioRequest):
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
 
+
 @router.get("/health")
 async def health():
     """
     Check the health status of the portfolio analysis service.
-    
+
     Returns:
         dict: Status message indicating service health
     """

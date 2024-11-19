@@ -1,8 +1,10 @@
 """Test module for logging functionality."""
 
-import os
 import logging
+import os
+
 from app.utils.logger import logger
+
 
 # Set up a test logger to capture outputs
 def test_logger_basic_usage():
@@ -53,6 +55,7 @@ def test_logger_to_file():
         os.remove(log_file)
     else:
         print("Log file test failed.")
+
 
 # Run all tests
 if __name__ == "__main__":

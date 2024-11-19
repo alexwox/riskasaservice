@@ -1,6 +1,6 @@
 import logging
-from logging.handlers import RotatingFileHandler
 import os
+from logging.handlers import RotatingFileHandler
 
 # Ensure the logs/ directory exists
 log_dir = os.path.join(os.getcwd(), "logs")
