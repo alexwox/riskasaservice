@@ -1,12 +1,12 @@
-name: Python Tests
+name: Python Tests and Linting
 
 on:
   push:
     branches:
-      - main  # Run tests on every push to the main branch
+      - main
   pull_request:
     branches:
-      - main  # Run tests for pull requests targeting the main branch
+      - main
 
 jobs:
   test:
@@ -27,9 +27,23 @@ jobs:
         source env/bin/activate
         pip install --upgrade pip
         pip install -r requirements.txt
-        pip install pytest pytest-cov
 
-    - name: Run tests
+    - name: Run Linting with flake8
+      run: |
+        source env/bin/activate
+        flake8 app/ tests/
+
+    - name: Run Black (Check Only)
+      run: |
+        source env/bin/activate
+        black --check app/ tests/
+
+    - name: Run isort (Check Only)
+      run: |
+        source env/bin/activate
+        isort --check-only app/ tests/
+
+    - name: Run Tests
       run: |
         source env/bin/activate
         pytest --cov=app
