@@ -1,0 +1,35 @@
+name: Python Tests
+
+on:
+  push:
+    branches:
+      - main  # Run tests on every push to the main branch
+  pull_request:
+    branches:
+      - main  # Run tests for pull requests targeting the main branch
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+
+    - name: Install dependencies
+      run: |
+        python -m venv env
+        source env/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+
+    - name: Run tests
+      run: |
+        source env/bin/activate
+        pytest --cov=app
